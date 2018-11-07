@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <title>Intro to SceneView - Create a 3D map - 4.9</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.9/"></script>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/SceneView",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/Home",
+      "esri/widgets/Expand",
+      "esri/widgets/BasemapGallery",
+      "esri/WebMap",
+      "esri/widgets/Legend",
+      "esri/widgets/Expand"
+    ], function(Map, SceneView, FeatureLayer, Home, Expand, BasemapGallery, WebMap, Legend, Expand) {
+
+
+      
+     
+      var webMap = new WebMap({
+        portalItem: { // autocasts as new PortalItem()
+          id: "305b36e2a2e645289f9fccd526d03039"
+        }
+      });
+
+      var view = new SceneView({
+        container: "viewDiv",
+        map: webMap,  
+        scale: 100000,
+        center: [-74.081749, 4.6097102]
+      });
+      
+      var homeBtn = new Home({
+        view: view
+      });
+      
+      view.ui.add(homeBtn, {
+        position: "top-left"
+      });
+      
+      const legend = new Expand({
+          content: new Legend({
+            view: view,
+            style: "card" // other styles include 'classic'
+          }),
+          view: view,
+          expanded: false
+        });
+        view.ui.add(legend, "bottom-left");
+      
+      var basemapGallery = new BasemapGallery({
+        view: view,
+        container: document.createElement("div")
+      });
+
+      var bgExpand = new Expand({
+        view: view,
+        content: basemapGallery
+      });
+
+      // Add the expand instance to the ui
+
+      view.ui.add(bgExpand, "top-right");
+      
+    });
+  </script>
+</head>
+
+<body>
+  
+<div class="panel panel-primary">
+  <div class="panel-body">
+Descripcion
+
+  </div>
+  <div class="panel-footer">
+
+
+    El constante aumento poblacional en la capital ha generado una mayor demanda de recursos y servicios, como el de la salud y atención medica en diferentes niveles. La cantidad de hospitales y centros médicos existentes no alcanzan a cubrir toda la necesidad tanto por capacidad, como por distancia. 
+
+    La intención de este proyecto es mejorar y reducir el déficit de atención hospitalaria a través de la ubicación de un nuevo hospital, el cual tomara en cuenta la densidad poblacional por localidades y un grupo de población prioritario como lo son los estudiantes, desde la identificación de colegios.
+
+    Para este trabajo, se busca analizar las zonas de influencia de los hospitales para ver que tanto alcanzan a cubrir una determinada zona, y ver a que lugares no llega, con el fin de determinar la posible nueva ubicación del hospital. Adicional a esto se identifica por medio de diferentes representaciones gráficas, como diagramas de barras, las localidades con mayor población y número de colegios. Y se determina finalmente el lugar optimo que cumple la mayor cantidad de condiciones para ubicar este hospital.
+
+  </div>
+</div>
+
+<div id="viewDiv"></div>
+</body>
+</html>
